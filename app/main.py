@@ -4,7 +4,6 @@ from typing import List
 import pickle
 
 
-# ----------------- Dataclasses -----------------
 @dataclasses.dataclass
 class Specialty:
     name: str
@@ -29,32 +28,29 @@ class Group:
     students: List[Student]
 
 
-# ----------------- Functions with pickle -----------------
 def write_groups_information(groups: List[Group]) -> int:
-    """Write groups to 'groups.pickle' and return max number of students in a group"""
+    """Сохраняет группы в 'groups.pickle', возвращает макс. число студентов"""
     with open("groups.pickle", "wb") as f:
         pickle.dump(groups, f)
-    # Максимальное количество студентов в группе
-    return max(len(group.students) for group in groups) if groups else 0
+    return max(len(g.students) for g in groups) if groups else 0
 
 
 def write_students_information(students: List[Student]) -> int:
-    """Write all students to 'students.pickle' and return total number of students"""
+    """Сохраняет студентов в 'students.pickle', возвращает количество"""
     with open("students.pickle", "wb") as f:
         pickle.dump(students, f)
     return len(students)
 
 
 def read_groups_information() -> List[str]:
-    """Read groups from 'groups.pickle' and return unique specialty names"""
+    """Читает группы из 'groups.pickle', возвращает уникальные названия специальностей"""
     with open("groups.pickle", "rb") as f:
         groups: List[Group] = pickle.load(f)
-    # Собираем уникальные названия специальностей
-    return list({group.specialty.name for group in groups})
+    return list({g.specialty.name for g in groups})
 
 
 def read_students_information() -> List[Student]:
-    """Read students from 'students.pickle' and return list of Student objects"""
+    """Читает студентов из 'students.pickle'"""
     with open("students.pickle", "rb") as f:
         students: List[Student] = pickle.load(f)
     return students
